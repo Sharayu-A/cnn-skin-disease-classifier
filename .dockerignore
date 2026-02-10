@@ -1,0 +1,32 @@
+# virtual envs
+venv
+.venv
+
+# python cache 
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# git
+.git
+.gitignore
+
+# local files
+media
+*.db
+.env
+
+# large ML stuff (important)
+*.h5
+*.pt
+*.ckpt
+datasets
+data
+notebooks
+
+# credentials
+service-account.json
+
+# node (if any)
+node_modules
