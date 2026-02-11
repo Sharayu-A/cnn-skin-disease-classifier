@@ -43,6 +43,7 @@ EXPOSE 8080
 # Start production server
 # ===============================
 
-CMD python manage.py migrate && gunicorn CNN.wsgi:application --bind 0.0.0.0:8080 --workers 1 --timeout 300
+#CMD python manage.py migrate && gunicorn CNN.wsgi:application --bind 0.0.0.0:8080 --workers 1 --timeout 300
+CMD gunicorn CNN.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 300
 
 
