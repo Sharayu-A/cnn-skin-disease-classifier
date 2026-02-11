@@ -1,85 +1,54 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
 
-    <title>{% block title %}Skin Disease Classifier{% endblock %}</title>
+{% block title %}Home - Skin Disease Classifier{% endblock %}
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<div class="row justify-content-center text-center">
 
-    <!-- Your external CSS ONLY -->
-    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+    <div class="col-lg-8">
 
-    {% block extra_css %}{% endblock %}
-</head>
-
-<body>
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
+        <h1 class="section-title">
             <i class="bi bi-heart-pulse"></i>
             Skin Disease Classifier
-        </a>
+        </h1>
 
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <p class="text-muted-custom mb-5">
+            AI-powered skin disease detection using Deep Learning & TensorFlow
+        </p>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'single' %}">
-                        <i class="bi bi-image"></i> Single Upload
+        <div class="row g-4">
+
+            <!-- Single Upload -->
+            <div class="col-md-6">
+                <div class="card p-4 text-center">
+                    <i class="bi bi-image icon-lg mb-3"></i>
+                    <h5>Single Image</h5>
+                    <p class="text-muted-custom">Upload one image for quick prediction</p>
+
+                    <a href="{% url 'single' %}" class="btn btn-primary mt-3">
+                        Try Now
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'batch' %}">
-                        <i class="bi bi-images"></i> Batch Upload
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<!-- MAIN -->
-<div class="main-container">
-    <div class="container">
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                    {{ message }}
-                    <button class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
 
-        {% block content %}{% endblock %}
+            <!-- Batch Upload -->
+            <div class="col-md-6">
+                <div class="card p-4 text-center">
+                    <i class="bi bi-images icon-lg mb-3"></i>
+                    <h5>Batch Upload</h5>
+                    <p class="text-muted-custom">Process multiple images at once</p>
+
+                    <a href="{% url 'batch' %}" class="btn btn-primary mt-3">
+                        Try Batch
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
-
-<!-- FOOTER -->
-<footer>
-    <div class="container">
-        <p>&copy; 2026 Skin Disease Classifier. All rights reserved.</p>
-        <p class="text-muted-custom">Powered by TensorFlow & Django</p>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-{% block extra_js %}{% endblock %}
-
-</body>
-</html>
+{% endblock %}
