@@ -36,7 +36,7 @@
 
                 {{ form.images }}
 
-                <button class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100">
                     <i class="bi bi-lightning-charge"></i> Process All
                 </button>
 
@@ -69,8 +69,7 @@
                         <td>{{ r.label }}</td>
                         <td style="width: 40%;">
                             <div class="progress">
-                                <div class="progress-bar"
-                                     style="width: {{ r.confidence }}%;">
+                                <div class="progress-bar" style="width: {{ r.confidence }}%;">
                                 </div>
                             </div>
                             {{ r.confidence|floatformat:2 }}%

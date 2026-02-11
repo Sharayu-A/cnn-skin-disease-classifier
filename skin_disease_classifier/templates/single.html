@@ -1,107 +1,71 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Single Image Prediction{% endblock %}
+{% block title %}Single Prediction{% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center mb-5">
-    <div class="col-lg-6 text-center">
-
-        <h1 class="section-title">
-            <i class="bi bi-image"></i> Single Image Prediction
-        </h1>
-
-        <p class="text-muted-custom mb-4">
-            Upload a skin image for AI diagnosis
-        </p>
-
-    </div>
-</div>
-
-
 <div class="row justify-content-center">
-    <div class="col-lg-6">
+    <div class="col-md-6">
 
-        <!-- CARD -->
         <div class="card p-4">
 
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- Upload Area -->
-                <div class="upload-area text-center p-5 rounded-3 mb-3" id="uploadArea">
-                    <i class="bi bi-cloud-arrow-up icon-lg"></i>
-                    <p class="fw-600">Click or Drag Image</p>
+                <div class="upload-area mb-3" id="uploadArea">
+                    Click or Upload Image
                 </div>
 
-                <!-- Hidden Django Input -->
                 {{ form.image }}
 
-                <!-- Preview -->
-                <div id="previewContainer" class="hidden mb-3">
-                    <img id="imagePreview" class="preview-img">
+                <div id="previewContainer" class="hidden mt-3">
+                    <img id="imagePreview" class="preview-img" alt="Preview of uploaded skin disease image">
                 </div>
 
-                <button class="btn btn-primary w-100">
-                    <i class="bi bi-lightning-charge"></i> Predict
+                <button type="submit" class="btn btn-primary w-100 mt-3">
+                    Predict
                 </button>
-
             </form>
 
         </div>
 
-
-        <!-- RESULT CARD -->
         {% if result %}
-        <div class="card mt-4 p-4 text-center">
+        <div class="card p-4 mt-4 text-center">
+            <h5>{{ result.0 }}</h5>
 
-            <h5 class="mb-3 text-success">
-                <i class="bi bi-check-circle"></i> Prediction Result
-            </h5>
-
-            <h4 class="fw-700 mb-3">
-                {{ result.0 }}
-            </h4>
-
-            <p class="fw-600">
-                Confidence: {{ result.1|floatformat:2 }}%
-            </p>
-
-            <!-- Graph -->
-            <div class="progress">
-                <div class="progress-bar"
-                     style="width: {{ result.1 }}%;">
+            <div class="progress mt-2">
+                <div class="progress-bar" data-width="{{ result.1|stringformat:'d' }}">
                 </div>
             </div>
 
+            <small>{{ result.1 }}%</small>
         </div>
         {% endif %}
 
     </div>
 </div>
 
-
-<!-- Preview JS ONLY -->
 <script>
 const input = document.querySelector('input[type="file"]');
+const area = document.getElementById('uploadArea');
 const preview = document.getElementById('previewContainer');
 const img = document.getElementById('imagePreview');
-const area = document.getElementById('uploadArea');
+const progressBar = document.querySelector('.progress-bar');
 
 area.onclick = () => input.click();
 
 input.onchange = () => {
-    const file = input.files[0];
-    if (!file) return;
-
     const reader = new FileReader();
     reader.onload = e => {
         img.src = e.target.result;
         preview.classList.remove('hidden');
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(input.files[0]);
 };
+
+if (progressBar) {
+    progressBar.style.width = progressBar.getAttribute('data-width') + '%';
+}
 </script>
 
 {% endblock %}
