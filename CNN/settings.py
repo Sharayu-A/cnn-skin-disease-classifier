@@ -96,7 +96,8 @@ DATABASES = {
         'USER': os.getenv("DB_USER", "postgres"),
         'PASSWORD': os.getenv("DB_PASSWORD", "root"),
         # 'HOST': os.getenv("DB_HOST", "localhost"),
-        "HOST": f"/cloudsql/{ascendant-volt-485006-h7:asia-south1:skin-disease-project}",
+        # "HOST": f"/cloudsql/{ascendant-volt-485006-h7:asia-south1:skin-disease-project}"
+        "HOST": "/cloudsql/ascendant-volt-485006-h7:asia-south1:skin-disease-project",
         'PORT': '5432',
     }
 }
