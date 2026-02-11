@@ -17,16 +17,33 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
+
+        <!-- Brand / Home -->
+        <a class="navbar-brand fw-700" href="{% url 'home' %}">
             <i class="bi bi-heart-pulse"></i> Skin Disease Classifier
         </a>
 
-        <div class="ms-auto">
-            <a href="{% url 'single' %}" class="nav-link d-inline text-white">Single</a>
-            <a href="{% url 'batch' %}" class="nav-link d-inline text-white">Batch</a>
+        <div class="ms-auto d-flex gap-3">
+
+            <!-- Home -->
+            <a href="{% url 'home' %}" class="nav-link text-white">
+                <i class="bi bi-house-door"></i> Home
+            </a>
+
+            <!-- Single -->
+            <a href="{% url 'single' %}" class="nav-link text-white">
+                <i class="bi bi-image"></i> Single
+            </a>
+
+            <!-- Batch -->
+            <a href="{% url 'batch' %}" class="nav-link text-white">
+                <i class="bi bi-images"></i> Batch
+            </a>
+
         </div>
     </div>
 </nav>
+
 
 <!-- MAIN CONTENT GOES HERE -->
 <div class="main-container">
