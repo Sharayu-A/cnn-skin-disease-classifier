@@ -4,7 +4,9 @@
 
 {% block content %}
 
-<!-- 🔥 HEADER (same style as batch page) -->
+<!-- =========================
+     HEADER (same as batch)
+========================= -->
 <div class="row justify-content-center mb-5">
     <div class="col-lg-6 text-center">
 
@@ -20,43 +22,73 @@
 </div>
 
 
+
+<!-- =========================
+     UPLOAD CARD
+========================= -->
 <div class="row justify-content-center">
-    <div class="col-lg-6">
+    <div class="col-md-6">
 
         <div class="card p-4">
 
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <div class="upload-area text-center p-4 mb-3" id="uploadArea">
-                    <i class="bi bi-cloud-arrow-up icon-lg"></i>
-                    <p class="fw-600">Click or Upload Image</p>
+                <!-- Upload area -->
+                <div class="upload-area text-center mb-3"
+                     id="uploadArea"
+                     style="padding:40px; border:2px dashed #cbd5e1; cursor:pointer;">
+                    Click or Upload Image
                 </div>
 
                 {{ form.image }}
 
-                <div id="previewContainer" class="hidden text-center mt-3">
-                    <img id="imagePreview" class="preview-img">
+                <!-- =========================
+                     HARD-CODED PREVIEW (NO CSS)
+                ========================== -->
+                <div id="previewContainer"
+                     class="hidden mt-3"
+                     style="text-align:center; overflow:hidden;">
+
+                    <img id="imagePreview"
+                         alt="Preview of uploaded image"
+                         style="
+                             width:100%;
+                             max-height:200px;
+                             object-fit:contain;
+                             border-radius:8px;
+                             display:block;
+                             margin:auto;
+                         ">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">
                     Predict
                 </button>
+
             </form>
 
         </div>
 
 
+
+        <!-- =========================
+             RESULT
+        ========================== -->
         {% if result %}
         <div class="card p-4 mt-4 text-center">
 
-            <h5 class="fw-700 text-success mb-3">
+            <h5 style="font-weight:600;">
                 Prediction: {{ result.0 }}
             </h5>
 
-            <div class="progress">
-                <div class="progress-bar"
-                     style="width: {{ result.1 }}%;">
+            <!-- confidence bar -->
+            <div style="background:#e5e7eb; height:18px; border-radius:6px; overflow:hidden; margin-top:10px;">
+                <div style="
+                        width: {{ result.1 }}%;
+                        height:100%;
+                        background:#2563eb;
+                    ">
                 </div>
             </div>
 
@@ -69,6 +101,10 @@
 </div>
 
 
+
+<!-- =========================
+     PREVIEW JS (UNCHANGED)
+========================= -->
 <script>
 const input = document.querySelector('input[type="file"]');
 const area = document.getElementById('uploadArea');
