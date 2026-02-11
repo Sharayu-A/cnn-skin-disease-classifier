@@ -4,37 +4,39 @@
 
 {% block content %}
 
-<style>
-    #previewContainer {
-        text-align: center;
-        overflow: hidden;
-    }
-    .preview-img {
-        max-width: 100%;
-        max-height: 300px;
-        height: auto;
-        width: auto;
-        object-fit: contain;
-        border-radius: 6px;
-    }
-</style>
+<!-- 🔥 HEADER (same style as batch page) -->
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-6 text-center">
+
+        <h1 class="section-title">
+            <i class="bi bi-image"></i> Single Image Prediction
+        </h1>
+
+        <p class="text-muted-custom">
+            Upload a skin image for AI diagnosis
+        </p>
+
+    </div>
+</div>
+
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-lg-6">
 
         <div class="card p-4">
 
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <div class="upload-area mb-3" id="uploadArea">
-                    Click or Upload Image
+                <div class="upload-area text-center p-4 mb-3" id="uploadArea">
+                    <i class="bi bi-cloud-arrow-up icon-lg"></i>
+                    <p class="fw-600">Click or Upload Image</p>
                 </div>
 
                 {{ form.image }}
 
-                <div id="previewContainer" class="hidden mt-3">
-                    <img id="imagePreview" class="preview-img" alt="Preview of uploaded skin disease image">
+                <div id="previewContainer" class="hidden text-center mt-3">
+                    <img id="imagePreview" class="preview-img">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">
@@ -44,28 +46,34 @@
 
         </div>
 
+
         {% if result %}
         <div class="card p-4 mt-4 text-center">
-            <h5>{{ result.0 }}</h5>
 
-            <div class="progress mt-2">
-                <div class="progress-bar" data-width="{{ result.1|stringformat:'d' }}">
+            <h5 class="fw-700 text-success mb-3">
+                Prediction: {{ result.0 }}
+            </h5>
+
+            <div class="progress">
+                <div class="progress-bar"
+                     style="width: {{ result.1 }}%;">
                 </div>
             </div>
 
             <small>{{ result.1 }}%</small>
+
         </div>
         {% endif %}
 
     </div>
 </div>
 
+
 <script>
 const input = document.querySelector('input[type="file"]');
 const area = document.getElementById('uploadArea');
 const preview = document.getElementById('previewContainer');
 const img = document.getElementById('imagePreview');
-const progressBar = document.querySelector('.progress-bar');
 
 area.onclick = () => input.click();
 
@@ -77,10 +85,6 @@ input.onchange = () => {
     };
     reader.readAsDataURL(input.files[0]);
 };
-
-if (progressBar) {
-    progressBar.style.width = progressBar.getAttribute('data-width') + '%';
-}
 </script>
 
 {% endblock %}
