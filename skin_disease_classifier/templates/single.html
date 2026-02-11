@@ -6,22 +6,24 @@
 {% block content %}
 
 <div class="row justify-content-center mb-5">
-    <div class="col-lg-8 text-center">
+    <div class="col-lg-6 text-center">
+
         <h1 class="section-title">
             <i class="bi bi-image"></i> Single Image Prediction
         </h1>
-        <p class="text-muted-custom">
+
+        <p class="text-muted-custom mb-4">
             Upload a skin image for AI diagnosis
         </p>
+
     </div>
 </div>
 
 
 <div class="row justify-content-center">
-
     <div class="col-lg-6">
 
-        <!-- Upload Card -->
+        <!-- CARD -->
         <div class="card p-4">
 
             <form method="POST" enctype="multipart/form-data">
@@ -33,12 +35,12 @@
                     <p class="fw-600">Click or Drag Image</p>
                 </div>
 
-                <!-- Hidden Django input -->
+                <!-- Hidden Django Input -->
                 {{ form.image }}
 
                 <!-- Preview -->
-                <div id="previewContainer" class="hidden text-center mb-3">
-                    <img id="imagePreview" class="preview-img rounded-3">
+                <div id="previewContainer" class="hidden mb-3">
+                    <img id="imagePreview" class="preview-img">
                 </div>
 
                 <button class="btn btn-primary w-100">
@@ -50,32 +52,26 @@
         </div>
 
 
-        <!-- Prediction Result -->
+        <!-- RESULT CARD -->
         {% if result %}
-        <div class="card mt-4 p-4 text-center shadow-sm">
+        <div class="card mt-4 p-4 text-center">
 
-            <h5 class="mb-3">
-                <i class="bi bi-check-circle text-success"></i>
-                Prediction Result
+            <h5 class="mb-3 text-success">
+                <i class="bi bi-check-circle"></i> Prediction Result
             </h5>
 
-            <h4 class="fw-700 text-primary mb-3">
+            <h4 class="fw-700 mb-3">
                 {{ result.0 }}
             </h4>
 
-            <!-- Confidence Graph -->
-            <p class="mb-2 fw-600">
+            <p class="fw-600">
                 Confidence: {{ result.1|floatformat:2 }}%
             </p>
 
+            <!-- Graph -->
             <div class="progress">
-                <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: {{ result.1 }}%;"
-                    aria-valuenow="{{ result.1 }}"
-                    aria-valuemin="0"
-                    aria-valuemax="100">
+                <div class="progress-bar"
+                     style="width: {{ result.1 }}%;">
                 </div>
             </div>
 
@@ -83,21 +79,20 @@
         {% endif %}
 
     </div>
-
 </div>
 
 
-<!-- Simple Preview Script (ONLY for preview, not submit) -->
+<!-- Preview JS ONLY -->
 <script>
-const fileInput = document.querySelector('input[type="file"]');
+const input = document.querySelector('input[type="file"]');
 const preview = document.getElementById('previewContainer');
 const img = document.getElementById('imagePreview');
 const area = document.getElementById('uploadArea');
 
-area.onclick = () => fileInput.click();
+area.onclick = () => input.click();
 
-fileInput.onchange = () => {
-    const file = fileInput.files[0];
+input.onchange = () => {
+    const file = input.files[0];
     if (!file) return;
 
     const reader = new FileReader();

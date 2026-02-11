@@ -1,75 +1,97 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Batch Prediction{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center mb-5">
-    <div class="col-lg-8 text-center">
+    <div class="col-lg-6 text-center">
+
         <h1 class="section-title">
-            <i class="bi bi-images"></i> Batch Upload
+            <i class="bi bi-images"></i> Batch Image Prediction
         </h1>
+
+        <p class="text-muted-custom">
+            Upload multiple skin images for AI diagnosis
+        </p>
+
     </div>
 </div>
 
 
-<div class="row">
+<div class="row justify-content-center">
+    <div class="col-lg-6">
 
-    <!-- Upload -->
-    <div class="col-lg-6 mb-4">
-        <div class="card">
-            <div class="card-body p-4">
+        <!-- Upload Card -->
+        <div class="card p-4">
 
-                <form method="POST" enctype="multipart/form-data" id="batchForm">
-                    {% csrf_token %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-                    <div class="upload-area text-center p-5" id="batchUploadArea">
-                        <i class="bi bi-cloud-arrow-up icon-lg"></i>
-                        <p><strong>Upload Multiple Images</strong></p>
-                    </div>
+                <div class="upload-area text-center p-5 rounded-3 mb-3" id="uploadArea">
+                    <i class="bi bi-cloud-arrow-up icon-lg"></i>
+                    <p class="fw-600">Click or Drag Multiple Images</p>
+                </div>
 
-                    <input type="file" multiple name="images" id="batchInput" class="d-none" required>
+                {{ form.images }}
 
-                    <div id="filesList" class="hidden mt-3"></div>
+                <button class="btn btn-primary w-100">
+                    <i class="bi bi-lightning-charge"></i> Process All
+                </button>
 
-                    <button class="btn btn-primary w-100 mt-4">Process All</button>
-                </form>
+            </form>
 
-            </div>
         </div>
-    </div>
 
 
-    <!-- Results -->
-    <div class="col-lg-6 mb-4">
-        <div id="batchResultsCard" class="card hidden">
-            <div class="card-body">
-                <div id="batchResultsContent"></div>
-            </div>
+        <!-- Results -->
+        {% if results %}
+        <div class="card mt-4 p-4">
+
+            <h5 class="mb-4 text-success text-center">
+                <i class="bi bi-check-circle"></i> Batch Results
+            </h5>
+
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Prediction</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for r in results %}
+                    <tr>
+                        <td>{{ r.filename }}</td>
+                        <td>{{ r.label }}</td>
+                        <td style="width: 40%;">
+                            <div class="progress">
+                                <div class="progress-bar"
+                                     style="width: {{ r.confidence }}%;">
+                                </div>
+                            </div>
+                            {{ r.confidence|floatformat:2 }}%
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
         </div>
-    </div>
+        {% endif %}
 
+    </div>
 </div>
 
 
 <script>
-const area = document.getElementById('batchUploadArea');
-const input = document.getElementById('batchInput');
-const list = document.getElementById('filesList');
+const input = document.querySelector('input[type="file"]');
+const area = document.getElementById('uploadArea');
 
 area.onclick = () => input.click();
-
-input.onchange = () => {
-    list.innerHTML = '';
-    list.classList.remove('hidden');
-
-    for (let f of input.files) {
-        const div = document.createElement('div');
-        div.className = 'file-item';
-        div.innerText = f.name;
-        list.appendChild(div);
-    }
-};
 </script>
 
 {% endblock %}
