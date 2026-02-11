@@ -17,6 +17,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [os.getenv("APP_URL")]
+
+
 
 # ==================================================
 # APPS
