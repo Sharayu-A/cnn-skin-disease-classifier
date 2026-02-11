@@ -1,79 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Prediction</title>
+{% extends 'base.html' %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% block title %}Batch Prediction{% endblock %}
 
-<body class="bg-light">
+{% block content %}
 
-<nav class="navbar navbar-light bg-white shadow-sm px-4">
-    <a class="navbar-brand fw-bold text-primary" href="/">SkinAI Predictor</a>
-
-    <div>
-        <a href="/" class="btn btn-outline-primary me-2">Home</a>
-        <a href="/single/" class="btn btn-outline-primary">Single</a>
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8 text-center">
+        <h1 class="section-title">
+            <i class="bi bi-images"></i> Batch Upload
+        </h1>
     </div>
-</nav>
+</div>
 
 
-<div class="container py-5">
+<div class="row">
 
-    <div class="card shadow p-4">
+    <!-- Upload -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-body p-4">
 
-        <h4 class="text-center mb-4">Batch Prediction</h4>
+                <form method="POST" enctype="multipart/form-data" id="batchForm">
+                    {% csrf_token %}
+
+                    <div class="upload-area text-center p-5" id="batchUploadArea">
+                        <i class="bi bi-cloud-arrow-up icon-lg"></i>
+                        <p><strong>Upload Multiple Images</strong></p>
+                    </div>
+
+                    <input type="file" multiple name="images" id="batchInput" class="d-none" required>
+
+                    <div id="filesList" class="hidden mt-3"></div>
+
+                    <button class="btn btn-primary w-100 mt-4">Process All</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 
-        <!-- ========================= -->
-        <!-- Upload -->
-        <!-- ========================= -->
-        <form method="POST" enctype="multipart/form-data" class="text-center">
-            {% csrf_token %}
-
-            <label for="images" class="form-label">Select Images</label>
-            <input type="file" id="images" name="images" multiple class="form-control mb-3" required>
-
-            <button type="submit" class="btn btn-success w-100">
-                Generate Predictions
-            </button>
-        </form>
-
-
-        <!-- ========================= -->
-        <!-- Results -->
-        <!-- ========================= -->
-        {% if results %}
-
-        <hr>
-
-        <table class="table table-hover mt-3">
-            <thead class="table-light">
-                <tr>
-                    <th>Filename</th>
-                    <th>Prediction</th>
-                    <th>Confidence</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for row in results %}
-                <tr>
-                    <td>{{ row.0 }}</td>
-                    <td class="fw-semibold text-success">{{ row.1 }}</td>
-                    <td>{{ row.2 }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% endif %}
-
+    <!-- Results -->
+    <div class="col-lg-6 mb-4">
+        <div id="batchResultsCard" class="card hidden">
+            <div class="card-body">
+                <div id="batchResultsContent"></div>
+            </div>
+        </div>
     </div>
 
 </div>
 
-</body>
-</html>
+
+<script>
+const area = document.getElementById('batchUploadArea');
+const input = document.getElementById('batchInput');
+const list = document.getElementById('filesList');
+
+area.onclick = () => input.click();
+
+input.onchange = () => {
+    list.innerHTML = '';
+    list.classList.remove('hidden');
+
+    for (let f of input.files) {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerText = f.name;
+        list.appendChild(div);
+    }
+};
+</script>
+
+{% endblock %}

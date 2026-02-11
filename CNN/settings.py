@@ -3,9 +3,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from google.oauth2 import service_account
 
-# ==================================================
+
 # BASIC
-# ==================================================
+
 
 load_dotenv()
 
@@ -21,9 +21,9 @@ CSRF_TRUSTED_ORIGINS = [os.getenv("APP_URL")]
 
 
 
-# ==================================================
+
 # APPS
-# ==================================================
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,9 +40,8 @@ INSTALLED_APPS = [
 ]
 
 
-# ==================================================
 # MIDDLEWARE
-# ==================================================
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,17 +53,15 @@ MIDDLEWARE = [
 ]
 
 
-# ==================================================
+
 # URLS / WSGI
-# ==================================================
 
 ROOT_URLCONF = 'CNN.urls'
 WSGI_APPLICATION = 'CNN.wsgi.application'
 
 
-# ==================================================
+
 # TEMPLATES
-# ==================================================
 
 TEMPLATES = [
     {
@@ -83,10 +80,6 @@ TEMPLATES = [
 ]
 
 
-# ==================================================
-# DATABASE (LOCAL POSTGRESQL)
-# ==================================================
-
 SECRET_KEY = os.getenv("SECRET_KEY", "dev")
 
 DATABASES = {
@@ -104,20 +97,18 @@ DATABASES = {
 
 
 
-# ==================================================
+
 # STATIC FILES
-# ==================================================
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "skin_disease_classifier/static"]
 
 
-# ==================================================
-# GOOGLE CLOUD STORAGE (DJANGO 5+ CORRECT WAY)
-# ==================================================
-# IMPORTANT:
-# service-account.json must be beside manage.py
-# NOT inside app folders
+
+# GOOGLE CLOUD STORAGE 
+
+
 
 STORAGES = {
     "default": {
@@ -134,9 +125,6 @@ STORAGES = {
     },
 }
 
-
-# ==================================================
 # DEFAULTS
-# ==================================================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
